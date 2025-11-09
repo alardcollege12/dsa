@@ -1,0 +1,170 @@
+#include <iostream>
+using namespace std;
+#define MAX 5
+class ArrayStack {
+    int arr[MAX];
+    int top;
+public:
+    ArrayStack() { top = -1; }
+    void push(int data) {
+        if (top == MAX - 1) {
+            cout << "Stack Overflow (Array)!\n";
+            return;
+        }
+        arr[++top] = data;
+        cout << data << " pushed to Array Stack.\n";
+    }
+    void pop() {
+        if (top == -1) {
+            cout << "Stack Underflow (Array)!\n";
+            return;
+        }
+        cout << arr[top--] << " popped from Array Stack.\n";
+    }
+    void peek() {
+        if (top == -1) {
+            cout << "Stack is empty (Array)!\n";
+            return;
+        }
+        cout << "Top element (Array): " << arr[top] << endl;
+    }
+    void display() {
+        if (top == -1) {
+            cout << "Stack is empty (Array)!\n";
+            return;
+        }
+        cout << "Array Stack elements: ";
+        for (int i = top; i >= 0; i--)
+            cout << arr[i] << " ";
+        cout << endl;
+    }
+};
+struct Node {
+    int data;
+    Node* next;
+};
+class LinkedListStack {
+    Node* top;
+public:
+    LinkedListStack() { top = nullptr; }
+    void push(int data) {
+        Node* newNode = new Node();
+        newNode->data = data;
+        newNode->next = top;
+        top = newNode;
+        cout << data << " pushed to Linked List Stack.\n";
+    }
+    void pop() {
+        if (top == nullptr) {
+            cout << "Stack Underflow (Linked List)!\n";
+            return;
+        }
+        cout << top->data << " popped from Linked List Stack.\n";
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+    }
+    void peek() {
+        if (top == nullptr) {
+            cout << "Stack is empty (Linked List)!\n";
+            return;
+        }
+        cout << "Top element (Linked List): " << top->data << endl;
+    }
+    void display() {
+        if (top == nullptr) {
+            cout << "Stack is empty (Linked List)!\n";
+            return;
+        }
+        cout << "Linked List Stack elements: ";
+        Node* temp = top;
+        while (temp != nullptr) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+    ~LinkedListStack() {
+        while (top != nullptr) {
+            Node* temp = top;
+            top = top->next;
+            delete temp;
+        }
+    }
+};
+int main() {
+    ArrayStack arrayStack;
+    LinkedListStack linkedListStack;
+    int mainChoice, choice, value;
+    while (true) {
+        cout << "   STACK IMPLEMENTATION MENU\n";
+        cout << "1. Use Array Stack\n";
+        cout << "2. Use Linked List Stack\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> mainChoice;
+        if (mainChoice == 3) {
+            cout << "Exiting program...\n";
+            break;
+        }
+        switch (mainChoice) {
+            case 1:
+                while (true) {
+                    cout << "\nArray Stack Operations\n";
+                    cout << "1. Push\n2. Pop\n3. Peek\n4. Display\n5. Back to Main Menu\n";
+                    cout << "Enter your choice: ";
+                    cin >> choice;
+                    if (choice == 5) break;
+                    switch (choice) {
+                        case 1:
+                            cout << "Enter value to push: ";
+                            cin >> value;
+                            arrayStack.push(value);
+                            break;
+                        case 2:
+                            arrayStack.pop();
+                            break;
+                        case 3:
+                            arrayStack.peek();
+                            break;
+                        case 4:
+                            arrayStack.display();
+                            break;
+                        default:
+                            cout << "Invalid choice! Try again.\n";
+                    }
+                }
+                break;
+            case 2:
+                while (true) {
+                    cout << "\nLinked List Stack Operations\n";
+                    cout << "1. Push\n2. Pop\n3. Peek\n4. Display\n5. Back to Main Menu\n";
+                    cout << "Enter your choice: ";
+                    cin >> choice;
+                    if (choice == 5) break;
+                    switch (choice) {
+                        case 1:
+                            cout << "Enter value to push: ";
+                            cin >> value;
+                            linkedListStack.push(value);
+                            break;
+                        case 2:
+                            linkedListStack.pop();
+                            break;
+                        case 3:
+                            linkedListStack.peek();
+                            break;
+                        case 4:
+                            linkedListStack.display();
+                            break;
+                        default:
+                            cout << "Invalid choice! Try again.\n";
+                    }
+                }
+                break;
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    }
+    return 0;
+}
