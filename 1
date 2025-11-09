@@ -1,0 +1,105 @@
+#include <iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node* next;
+};
+Node* createNode(int data) {
+    Node* newNode = new Node();
+    newNode->data = data;
+    newNode->next = nullptr;
+    return newNode;
+}
+void insertAtEnd(Node*& head, int data) {
+    Node* newNode = createNode(data);
+    if (head == nullptr) {
+        head = newNode;
+        return;
+    }
+    Node* temp = head;
+    while (temp->next != nullptr)
+        temp = temp->next;
+    temp->next = newNode;
+}
+void insertAtBeginning(Node*& head, int data) {
+    Node* newNode = createNode(data);
+    newNode->next = head;
+    head = newNode;
+}
+void deleteNode(Node*& head, int key) {
+    if (head == nullptr) {
+        cout << "List is empty!\n";
+        return;
+    }
+    Node* temp = head;
+    if (temp->data == key) {
+        head = temp->next;
+        delete temp;
+        cout << "Node deleted successfully.\n";
+        return;
+    }
+    Node* prev = nullptr;
+    while (temp != nullptr && temp->data != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == nullptr) {
+        cout << "Node not found!\n";
+        return;
+    }
+    prev->next = temp->next;
+    delete temp;
+    cout << "Node deleted successfully.\n";
+}
+void traverseList(Node* head) {
+    if (head == nullptr) {
+        cout << "List is empty!\n";
+        return;
+    }
+    cout << "Linked List: ";
+    Node* temp = head;
+    while (temp != nullptr) {
+        cout << temp->data << " -> ";
+        temp = temp->next;
+    }
+    cout << "NULL\n";
+}
+int main() {
+    Node* head = nullptr;
+    int choice, data, key;
+    while (true) {
+        cout << "\nSingly Linked List Operations\n";
+        cout << "1. Create Node (Insert at End)\n";
+        cout << "2. Insert at Beginning\n";
+        cout << "3. Delete a Node\n";
+        cout << "4. Traverse (Display List)\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter data to insert at end: ";
+                cin >> data;
+                insertAtEnd(head, data);
+                break;
+            case 2:
+                cout << "Enter data to insert at beginning: ";
+                cin >> data;
+                insertAtBeginning(head, data);
+                break;
+            case 3:
+                cout << "Enter value to delete: ";
+                cin >> key;
+                deleteNode(head, key);
+                break;
+            case 4:
+                traverseList(head);
+                break;
+            case 5:
+                cout << "Exiting program...\n";
+                return 0;
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    }
+}
